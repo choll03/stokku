@@ -47,7 +47,8 @@
                     <th>Kode Barang</th>
                     <th>Nama</th>
                     <th>Harga Beli</th>
-                    <th>Harga Jual</th>
+                    <th>Harga Jual Offline</th>
+                    <th>Harga Jual Online</th>
                 </tr>
             </thead>
             </table>
@@ -109,6 +110,12 @@
                     { data: 'nama'},
                     { data: function (data) {
                             return formatMoney(data.harga_beli, 0, ",", ".");
+                        }, className: "text-right"},
+                    { data: function (data) {
+                            var hargaBeli = parseInt(data.harga_beli);
+
+                            hargaJualOffline = hargaBeli + ((hargaBeli*10)/100);
+                            return formatMoney(hargaJualOffline, 0, ",", ".");
                         }, className: "text-right"},
                     { data: function (data) {
                             return formatMoney(data.harga_jual, 0, ",", ".");

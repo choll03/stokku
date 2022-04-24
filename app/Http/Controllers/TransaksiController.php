@@ -20,22 +20,35 @@ use DNS2D;
 
 class TransaksiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('transaksi.index');
+        return view('transaksi.index', ['type' => $request->type]);
     }
 
 
-    public function getData()
+    public function getData(Request $request)
     {
         $user = auth()->user();
         $warung = $user->warung;
+
+        $harga = 'barangs.harga_jual';
+
+        if ($request->type == 'offline') {
+            $harga = '(SELECT harga_beli FROM pembelian_details WHERE pembelian_details.barang_id = barangs.id ORDER BY created_at DESC LIMIT 1)';
+        }
+
         $barangs = Barang::select(DB::raw("
-                    barangs.*,
-                    IFNULL((SELECT SUM(jumlah) FROM pembelian_details WHERE barang_id = barangs.id), 0) - IFNULL((SELECT SUM(qty) FROM invoice_details WHERE barangs.id = invoice_details.barang_id ),0) as stok"))
+                    barangs.id as id,
+                    barangs.kode_barang as kode_barang,
+                    barangs.nama as nama,".
+                    $harga . " as harga_jual,"
+                    ."IFNULL((SELECT SUM(jumlah) FROM pembelian_details WHERE barang_id = barangs.id), 0) - IFNULL((SELECT SUM(qty) FROM invoice_details WHERE barangs.id = invoice_details.barang_id ),0) as stok"))
             ->where('warung_id', $warung->id);
         return Datatables::of($barangs)
-        ->addColumn('actions', function ($data) {
+        ->addColumn('actions', function ($data) use ($request){
+            if ($request->type == 'offline') {
+                $data->harga_jual = $data->harga_jual + ($data->harga_jual * 10 / 100);
+            }
             return '
                 <button type="button" class="increment btn btn-sm btn-success" data-barang='. var_export(json_encode($data), true) .' >+</button>
                 <button type="button" class="decrement btn btn-sm btn-danger" data-barang='. var_export(json_encode($data), true) .'>-</button>

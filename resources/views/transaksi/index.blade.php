@@ -19,6 +19,10 @@
         <div class="col-sm-6">
             <h1>Transaksi</h1>
         </div>
+        <div class="col-sm-6">
+            <a href="{{ route('transaksi', ['type' => 'online']) }}" class="btn {{ $type == 'online' ? 'btn-success' : 'btn-secondary' }} float-right">Online</a>
+            <a href="{{ route('transaksi', ['type' => 'offline']) }}" class="btn {{ $type == 'offline' ? 'btn-success' : 'btn-secondary' }} float-right">Offline</a>
+        </div>
     </div>
     </div><!-- /.container-fluid -->
 </section>
@@ -95,18 +99,24 @@
     <script src="{{ asset('js/print.js') }}"></script>
     <script>
         var _token = "{{csrf_token()}}";
+        var type = "{{ $type }}";
 
         $(function(){
             var table = $("#table_barang").DataTable({
                 processing: true,
                 // serverSide: true,
                 ajax: {
-                    url : '{{ route("getBarangForTransaksi") }}'
+                    url : '{{ route("getBarangForTransaksi", ['type' => $type]) }}'
                 },
                 columns: [
                     { data: 'kode_barang'},
                     { data: 'nama'},
-                    { data: 'harga_jual'},
+                    { data: function (data) {
+                            var hargaJual = parseInt(data.harga_jual);
+
+                            hargaJualOffline = hargaJual + ((hargaJual*10)/100);
+                            return hargaJualOffline;
+                        }},
                     { data: 'stok' },
                     { data: 'actions', orderable: false, searchable: false}
                 ]

@@ -113,7 +113,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('transaksi') }}" class="nav-link">
+                <a href="{{ route('transaksi', ['type' => 'offline']) }}" class="nav-link">
                     <i class="nav-icon fas fa-shopping-cart"></i>
                     <p>
                         Jual Barang
