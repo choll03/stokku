@@ -27,6 +27,7 @@ class BarangController extends Controller
         ->addColumn('actions', function ($data) {
             return '
                 <div style="display:flex;justify-content: center;">
+                <a href="'. route('barang.duplicate', $data->id) .'" class="btn btn-sm btn-secondary">Duplicate</a>&nbsp;
                 <a href="'. route('barang.edit', $data->id) .'" class="btn btn-sm btn-primary">Edit</a>&nbsp;
                 <form action="'. route('barang.destroy', $data->id) .'" method="POST">
                     <input type="hidden" name="_method" value="DELETE">
@@ -47,7 +48,13 @@ class BarangController extends Controller
      */
     public function create()
     {
-        return view('barang.create');
+        return view('barang.create', ['barang' => new Barang()]);
+    }
+
+    public function duplicate($id) {
+        $barang = Barang::find($id);
+
+        return view('barang.create', ['barang' => $barang]);
     }
 
     /**

@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/transaksi/print_preview/{id}', 'TransaksiController@printJs')->name('transaksi.print_preview');
         Route::get('/transaksi/{id}', 'TransaksiController@show')->name('transaksi.show');
         Route::post('/transaksi', 'TransaksiController@store')->name('transaksi.store');
+        Route::get('barang/duplicate/{id}', 'BarangController@duplicate')->name('barang.duplicate');
         Route::resource('/barang', 'BarangController');
         Route::resource('/pembelian', 'PembelianController');
         Route::get('/stok', 'BarangController@stok')->name('barang.stok');

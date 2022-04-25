@@ -48,19 +48,19 @@
             {!! Form::open(['route' => 'barang.store']) !!}
                 <div class="form-group">
                     {!! Form::label('kode_barang', 'Kode Brang') !!}
-                    {!! Form::text('kode_barang', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('kode_barang', $barang->kode_barang, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
                     {!! Form::label('nama', 'Nama Brang') !!}
-                    {!! Form::text('nama', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('nama', $barang->nama, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
                     {!! Form::label('harga_jual', 'Harga Jual') !!}
-                    {!! Form::text('harga_jual', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('harga_jual', $barang->harga_jual, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
                     {!! Form::label('stok_limit', 'Warning Stok yang perlu disiapkan (notifikasi muncul di dashboard)') !!}
-                    {!! Form::text('stok_limit', null, ['class' => 'form-control']) !!}
+                    {!! Form::text('stok_limit', $barang->stok_limit, ['class' => 'form-control']) !!}
                 </div>
                 {!! Form::submit('Buat', ['class' => 'btn btn-primary float-right']) !!}
 
