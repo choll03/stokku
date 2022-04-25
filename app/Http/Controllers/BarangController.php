@@ -199,7 +199,7 @@ class BarangController extends Controller
         $warung = $user->warung;
         $barangs = Barang::select(DB::raw("
                     barangs.*,
-                    (SELECT harga_beli FROM pembelian_details WHERE pembelian_details.barang_id = barangs.id ORDER BY created_at DESC LIMIT 1) as harga_beli"))
+                    IFNULL((SELECT harga_beli FROM pembelian_details WHERE pembelian_details.barang_id = barangs.id ORDER BY created_at DESC LIMIT 1), 0) as harga_beli"))
             ->where('warung_id', $warung->id)
             ->orderBy('kode_barang')
             ->get();
