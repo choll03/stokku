@@ -1,7 +1,7 @@
 <style>
  @media print {
     html, body {
-        display: block; 
+        display: block;
         font-family:"Courier New", Courier, monospace;
         margin: 0 10px;
         font-size:12px;
@@ -19,8 +19,8 @@
 
     hr {
         border: 1px dotted #000;
-        border-style: none none dotted; 
-        color: #fff; 
+        border-style: none none dotted;
+        color: #fff;
         background-color: #6c757d;
     }
 
@@ -45,6 +45,10 @@
         <td>Tanggal</td>
         <td align="right">{{ $invoice->created_at->format("d/M/Y") }}</td>
     </tr>
+    <tr>
+        <td>Tanggal</td>
+        <td align="right">{{ $invoice->nama_pembeli }}</td>
+    </tr>
 </table>
 <hr>
 <table width="100%">
@@ -62,14 +66,6 @@
     <tr>
         <td align="right">Total</td>
         <td align="right">{{ $total }}</td>
-    </tr>
-    <tr>
-        <td align="right">Tunai</td>
-        <td align="right">{{ $invoice->tunai }}</td>
-    </tr>
-    <tr>
-        <td align="right">Kembali</td>
-        <td align="right">{{ $invoice->tunai - $total }}</td>
     </tr>
 </table>
 <br>

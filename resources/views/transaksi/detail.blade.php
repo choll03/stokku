@@ -10,8 +10,8 @@
 
 @section('content')
 
-<?php 
-    $total = 0; 
+<?php
+    $total = 0;
 ?>
 <div class="content-wrapper">
 <section class="content-header">
@@ -47,6 +47,10 @@
                             <td>Tanggal</td>
                             <td align="right">{{ $data->created_at->format('d M Y, H:i') }}</td>
                         </tr>
+                        <tr>
+                            <td>Nama Pembeli</td>
+                            <td align="right">{{ $data->nama_pembeli }}</td>
+                        </tr>
                     </table>
                     <table class="table table-striped table-bordered">
                         <thead>
@@ -71,22 +75,14 @@
                             <td align="right" colspan="2">Total</td>
                             <td align="right">{{ $total }}</td>
                         </tr>
-                        <tr>
-                            <td align="right" colspan="2">Tunai</td>
-                            <td align="right">{{ $data->tunai }}</td>
-                        </tr>
-                        <tr>
-                            <td align="right" colspan="2">Kembali</td>
-                            <td align="right">{{ $data->tunai - $total }}</td>
-                        </tr>
                     </tfoot>
                     </table>
-                    
+
                 </div>
                 <div class="card-footer" style="text-align:right">
                     <button class="btn btn-primary" id="print">Print Struk</button>
                     <button class="btn btn-primary" id="print_preview">Print Preview</button>
-                    
+
                     <div class="row my-4">
                         <div class="col-md-4 offset-md-4">
                             <?php echo $barcode ?>
@@ -128,7 +124,7 @@
                     },
                     complete: function () {
                         printJS({
-                            printable: 'print-area', 
+                            printable: 'print-area',
                             type: 'html'
                         });
                     }
