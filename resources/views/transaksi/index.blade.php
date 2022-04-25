@@ -112,9 +112,11 @@
                     { data: 'kode_barang'},
                     { data: 'nama'},
                     { data: function (data) {
-                            var hargaJual = data.harga_jual == null || data.harga_jual == "" ? 0 : parseInt(data.harga_jual);
+                            var hargaJualOffline = data.harga_jual == null || data.harga_jual == "" ? 0 : parseInt(data.harga_jual);
 
-                            hargaJualOffline = hargaJual + ((hargaJual*10)/100);
+                            if (type == 'offline' && hargaJualOffline > 0) {
+                                hargaJualOffline = hargaJualOffline + ((hargaJualOffline*10)/100);
+                            }
                             return hargaJualOffline;
                         }},
                     { data: 'stok' },
