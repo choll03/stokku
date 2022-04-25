@@ -101,7 +101,7 @@
                     url : '{{ route("getHargaBarang") }}'
                 },
                 createdRow: function( row, data, dataIndex){
-                    if (parseInt(data.harga_jual) < parseInt(data.harga_beli)) {
+                    if (parseInt(data.harga_jual) < parseInt(data.harga_beli) || parseInt(data.harga_jual_offline) < parseInt(data.harga_beli)) {
                         $(row).addClass('table-danger');
                     }
                 },
@@ -112,10 +112,7 @@
                             return formatMoney(data.harga_beli, 0, ",", ".");
                         }, className: "text-right"},
                     { data: function (data) {
-                            var hargaBeli = parseInt(data.harga_beli);
-
-                            hargaJualOffline = hargaBeli + ((hargaBeli*10)/100);
-                            return formatMoney(hargaJualOffline, 0, ",", ".");
+                            return formatMoney(data.harga_jual_offline, 0, ",", ".");
                         }, className: "text-right"},
                     { data: function (data) {
                             return formatMoney(data.harga_jual, 0, ",", ".");

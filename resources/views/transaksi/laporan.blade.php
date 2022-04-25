@@ -45,6 +45,8 @@
                                     <tr>
                                         <th>Tanggal</th>
                                         <th>Nomor Transaksi</th>
+                                        <th>Nama Pembeli</th>
+                                        <th>Type Transaksi</th>
                                         <th>Barang</th>
                                         <th>Action</th>
                                     </tr>
@@ -76,6 +78,8 @@
                 columns: [
                     { data: 'created_at'},
                     { data: 'no_transaksi'},
+                    { data: 'nama_pembeli'},
+                    { data: 'type'},
                     {
                         data: function ( row ) {
                             var html = "<ul>";

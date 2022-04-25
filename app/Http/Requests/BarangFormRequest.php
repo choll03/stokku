@@ -27,6 +27,7 @@ class BarangFormRequest extends FormRequest
             'kode_barang'   => 'required',
             'nama'           => 'required|min:6',
             'harga_jual'     => 'required|numeric',
+            'harga_jual_offline'     => 'required|numeric',
             'stok_limit'     => 'required|numeric',
         ];
     }

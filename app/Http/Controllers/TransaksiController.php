@@ -34,7 +34,7 @@ class TransaksiController extends Controller
         $harga = 'barangs.harga_jual';
 
         if ($request->type == 'offline') {
-            $harga = '(SELECT harga_beli FROM pembelian_details WHERE pembelian_details.barang_id = barangs.id ORDER BY created_at DESC LIMIT 1)';
+            $harga = 'barangs.harga_jual_offline';
         }
 
         $barangs = Barang::select(DB::raw("
@@ -46,9 +46,6 @@ class TransaksiController extends Controller
             ->where('warung_id', $warung->id);
         return Datatables::of($barangs)
         ->addColumn('actions', function ($data) use ($request){
-            if ($request->type == 'offline') {
-                $data->harga_jual = $data->harga_jual + ($data->harga_jual * 10 / 100);
-            }
             return '
                 <button type="button" class="increment btn btn-sm btn-success" data-barang='. var_export(json_encode($data), true) .' >+</button>
                 <button type="button" class="decrement btn btn-sm btn-danger" data-barang='. var_export(json_encode($data), true) .'>-</button>
@@ -93,7 +90,9 @@ class TransaksiController extends Controller
         try {
 
             $invoice = $user->invoice()->create([
-                'no_transaksi'  => $no_transaksi
+                'no_transaksi'  => $no_transaksi,
+                'nama_pembeli' => $request->nama_pembeli,
+                'type' => $request->type_trx
             ]);
 
             foreach($request->nama as $key => $value)

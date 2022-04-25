@@ -45,9 +45,8 @@
                 <tr>
                     <th>Kode Barang</th>
                     <th>Nama</th>
-                    <th>Harga Jual</th>
                     <th>Warning Stok</th>
-                    <th>Stok</th>
+                    <th>Stok Saat ini</th>
                 </tr>
             </thead>
             </table>
@@ -72,7 +71,7 @@
             $("#table_barang").DataTable({
                 processing: true,
                 serverSide: true,
-                order: [ 4, 'asc' ],
+                order: [ 3, 'asc' ],
                 ajax: {
                     url : '{{ route("getStokBarang") }}'
                 },
@@ -85,7 +84,6 @@
                 columns: [
                     { data: 'kode_barang'},
                     { data: 'nama'},
-                    { data: 'harga_jual'},
                     { data: 'stok_limit' },
                     { data: 'stok'}
                 ]

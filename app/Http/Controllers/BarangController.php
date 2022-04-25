@@ -80,6 +80,7 @@ class BarangController extends Controller
             'kode_barang'   => $kodeBarang,
             'nama'          => $request->nama,
             'harga_jual'    => $request->harga_jual,
+            'harga_jual_offline' => $request->harga_jual_offline,
             'stok_limit'    => $request->stok_limit,
         ]);
 
@@ -149,6 +150,7 @@ class BarangController extends Controller
             'kode_barang' => $kodeBarang,
             'nama'          => $request->nama,
             'harga_jual'    => $request->harga_jual,
+            'harga_jual_offline' => $request->harga_jual_offline,
             'stok_limit'    => $request->stok_limit,
         ]);
 

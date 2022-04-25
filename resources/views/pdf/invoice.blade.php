@@ -46,8 +46,12 @@
         <td align="right">{{ $invoice->created_at->format("d/M/Y") }}</td>
     </tr>
     <tr>
-        <td>Tanggal</td>
+        <td>Nama Pembeli</td>
         <td align="right">{{ $invoice->nama_pembeli }}</td>
+    </tr>
+    <tr>
+        <td>Type Transaksi</td>
+        <td align="right">{{ $invoice->type }}</td>
     </tr>
 </table>
 <hr>

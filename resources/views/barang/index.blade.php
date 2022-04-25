@@ -48,7 +48,8 @@
                 <tr>
                     <th>Kode Barang</th>
                     <th>Nama</th>
-                    <th>Harga Jual</th>
+                    <th>Harga Jual Online</th>
+                    <th>Harga Jual Offline</th>
                     <th>Warning Stok</th>
                     <th>Action</th>
                 </tr>
@@ -82,6 +83,7 @@
                     { data: 'kode_barang'},
                     { data: 'nama'},
                     { data: 'harga_jual'},
+                    { data: 'harga_jual_offline'},
                     { data: 'stok_limit' },
                     { data: 'actions', orderable: false, searchable: false}
                 ]

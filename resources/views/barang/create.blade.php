@@ -55,8 +55,12 @@
                     {!! Form::text('nama', $barang->nama, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::label('harga_jual', 'Harga Jual') !!}
+                    {!! Form::label('harga_jual', 'Harga Jual Online') !!}
                     {!! Form::text('harga_jual', $barang->harga_jual, ['class' => 'form-control']) !!}
+                </div>
+                <div class="form-group">
+                    {!! Form::label('harga_jual_offline', 'Harga Jual Offline') !!}
+                    {!! Form::text('harga_jual_offline', $barang->harga_jual_offline, ['class' => 'form-control']) !!}
                 </div>
                 <div class="form-group">
                     {!! Form::label('stok_limit', 'Warning Stok yang perlu disiapkan (notifikasi muncul di dashboard)') !!}

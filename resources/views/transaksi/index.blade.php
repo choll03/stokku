@@ -63,6 +63,7 @@
                 <div class="card-body">
                 {!! Form::open(['route' => 'transaksi.store', 'id' => 'buat_transaksi']) !!}
                     <div>
+                        <input type="hidden" name="type_trx" value="{{$type}}">
                         {!! Form::label('nama_pembeli', 'Nama Pembeli') !!}
                         {!! Form::text('nama_pembeli', null, ['class' => 'form-control']) !!}
                     </div>
@@ -111,14 +112,7 @@
                 columns: [
                     { data: 'kode_barang'},
                     { data: 'nama'},
-                    { data: function (data) {
-                            var hargaJualOffline = data.harga_jual == null || data.harga_jual == "" ? 0 : parseInt(data.harga_jual);
-
-                            if (type == 'offline' && hargaJualOffline > 0) {
-                                hargaJualOffline = hargaJualOffline + ((hargaJualOffline*10)/100);
-                            }
-                            return hargaJualOffline;
-                        }},
+                    { data: 'harga_jual'},
                     { data: 'stok' },
                     { data: 'actions', orderable: false, searchable: false}
                 ]

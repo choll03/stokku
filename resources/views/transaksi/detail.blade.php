@@ -18,7 +18,10 @@
     <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Laporan</h1>
+            <h1>Detail Transaksi</h1>
+        </div>
+        <div class="col-sm-6">
+            <a href="{{route("laporan")}}" class="btn btn-secondary float-right">Kembali</a>
         </div>
     </div>
     </div><!-- /.container-fluid -->
@@ -30,7 +33,7 @@
     <div class="col-md-8">
       <!-- Default box -->
       <div class="card">
-                <div class="card-header">Detail Laporan</div>
+                <div class="card-header">Detail Transaksi</div>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -51,12 +54,17 @@
                             <td>Nama Pembeli</td>
                             <td align="right">{{ $data->nama_pembeli }}</td>
                         </tr>
+                        <tr>
+                            <td>Type Transaksi</td>
+                            <td align="right">{{ $data->type }}</td>
+                        </tr>
                     </table>
                     <table class="table table-striped table-bordered">
                         <thead>
                         <tr>
                             <th>Nama</th>
                             <th>Jumlah</th>
+                            <th>Harga Satuan</th>
                             <th>Sub total</th>
                         </tr>
                     </thead>
@@ -66,13 +74,14 @@
                             <tr>
                                 <td>{{ $detail->nama }}</td>
                                 <td align="center">{{ $detail->qty }}</td>
+                                <td align="right">{{ $detail->harga }}</td>
                                 <td align="right">{{ ($detail->qty * $detail->harga) }}</td>
                             </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td align="right" colspan="2">Total</td>
+                            <td align="right" colspan="3">Total</td>
                             <td align="right">{{ $total }}</td>
                         </tr>
                     </tfoot>
