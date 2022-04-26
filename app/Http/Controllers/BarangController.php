@@ -23,7 +23,7 @@ class BarangController extends Controller
     public function getData()
     {
         $user = auth()->user();
-        return Datatables::of($user->barang()->latest())
+        return Datatables::of($user->barang()->selectRaw('barangs.*')->latest())
         ->addColumn('actions', function ($data) {
             return '
                 <div style="display:flex;justify-content: center;">
