@@ -54,6 +54,14 @@ class BarangController extends Controller
     public function duplicate($id) {
         $barang = Barang::find($id);
 
+        $kodeBarangs = [];
+        $explodeKodeBarang = explode("-", $barang->kode_barang);
+        foreach ($explodeKodeBarang as $key => $value) {
+            if ($key != 0) $kodeBarangs[] = $value;
+        }
+
+        $barang->kode_barang = implode("-", $kodeBarangs);
+
         return view('barang.create', ['barang' => $barang]);
     }
 
