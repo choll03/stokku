@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BarangFormRequest;
 use App\Model\Barang;
+
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 
 class BarangController extends Controller
@@ -23,9 +25,9 @@ class BarangController extends Controller
     public function getData()
     {
         $user = auth()->user();
-        return Datatables::of($user->barang()->selectRaw('barangs.*')->latest())
+        return Datatables::of($user->barang()->selectRaw('barangs.*')->orderByDesc('barangs.active')->latest())
         ->addColumn('actions', function ($data) {
-            return '
+            $buttons = '
                 <div style="display:flex;justify-content: center;">
                 <a href="'. route('barang.duplicate', $data->id) .'" class="btn btn-sm btn-secondary">Duplicate</a>&nbsp;
                 <a href="'. route('barang.edit', $data->id) .'" class="btn btn-sm btn-primary">Edit</a>&nbsp;
@@ -33,9 +35,30 @@ class BarangController extends Controller
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="'. csrf_token() .'">
                     <button class="btn btn-sm btn-danger" onclick="return confirm('. var_export("Anda yakin ingin menghapus barang ini?", true) .')">Hapus</button>
-                </form>
-                </div>
-            ';
+                </form>';
+
+            if ($data->active) {
+                $buttons .= '
+                    <form action="'. route('barang.active', $data->id) .'" method="POST" style="margin-left: 5px">
+                        <input type="hidden" name="_token" value="'. csrf_token() .'">
+                        <input type="hidden" name="active" value="0"/>
+                        <button class="btn btn-sm btn-warning" onclick="return confirm('. var_export("Anda yakin ingin menonaktifkan barang ini?", true) .')">Nonaktifkan</button>
+                    </form>
+                ';
+            } else {
+                $buttons .= '
+                    <form action="'. route('barang.active', $data->id) .'" method="POST" style="margin-left: 5px">
+                        <input type="hidden" name="_token" value="'. csrf_token() .'">
+                        <input type="hidden" name="active" value="1"/>
+                        <button class="btn btn-sm btn-success" onclick="return confirm('. var_export("Anda yakin ingin mengaktifkan barang ini?", true) .')">Aktifkan</button>
+                    </form>
+                ';
+            }
+
+            $buttons .= '</div>';
+
+            return $buttons;
+
         })
         ->rawColumns(['actions'])
         ->make(true);
@@ -49,6 +72,23 @@ class BarangController extends Controller
     public function create()
     {
         return view('barang.create', ['barang' => new Barang()]);
+    }
+
+    public function activeBarang($id, Request $request) {
+        $user = auth()->user();
+
+        $barang = $user->barang()->find($id);
+        $barang->active = $request->active;
+        $barang->save();
+
+        $message = "nonaktifkan";
+
+        if ($request->active == 1) {
+            $message = "aktifkan";
+        }
+
+        session()->flash('status', 'Barang berhasil di'. $message);
+        return redirect(route('barang.index'));
     }
 
     public function duplicate($id) {
@@ -187,8 +227,8 @@ class BarangController extends Controller
         return view('barang.stok');
     }
 
-    public function hargaBarang() {
-        return view('barang.harga_dasar');
+    public function hargaBarang(Request $request) {
+        return view('barang.harga_dasar', ['type' => $request->type]);
     }
 
     public function getStokBarang()
@@ -197,22 +237,26 @@ class BarangController extends Controller
         $warung = $user->warung;
         $barangs = Barang::select(DB::raw("
                     barangs.*,
-                    IFNULL((SELECT SUM(jumlah) FROM pembelian_details WHERE barang_id = barangs.id), 0) - IFNULL((SELECT SUM(qty) FROM invoice_details WHERE barangs.id = invoice_details.barang_id ),0) as stok"))
+                    @stok := IFNULL((SELECT SUM(jumlah) FROM pembelian_details WHERE barang_id = barangs.id), 0) - IFNULL((SELECT SUM(qty) FROM invoice_details WHERE barangs.id = invoice_details.barang_id ),0) as stok,
+                    barangs.stok_limit - @stok as c"))
             ->where('warung_id', $warung->id)
-            ->orderBy('stok')
-            ->get();
+            ->where('active', 1)
+            ->orderByDesc('c');
         return Datatables::of($barangs)->make(true);
     }
 
-    public function getDataHarga() {
+    public function getDataHarga(Request $request) {
         $user = auth()->user();
         $warung = $user->warung;
         $barangs = Barang::select(DB::raw("
                     barangs.*,
                     IFNULL((SELECT harga_beli FROM pembelian_details WHERE pembelian_details.barang_id = barangs.id ORDER BY created_at DESC LIMIT 1), 0) as harga_beli"))
             ->where('warung_id', $warung->id)
-            ->orderBy('kode_barang')
-            ->get();
+            ->orderBy('kode_barang');
+
+        if ($request->type == "active") {
+            $barangs->where('active', 1);
+        }
         return Datatables::of($barangs)->make(true);
     }
 }

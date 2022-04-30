@@ -13,6 +13,10 @@
         <div class="col-sm-6">
             <h1>Harga Dasar Barang</h1>
         </div>
+        <div class="col-sm-6">
+            <a href="{{ route('harga_dasar', ['type' => 'all']) }}" class="btn {{ $type == 'all' ? 'btn-success' : 'btn-secondary' }} float-right">Tampilkan Semua</a>
+            <a href="{{ route('harga_dasar', ['type' => 'active']) }}" class="btn {{ $type == 'active' ? 'btn-success' : 'btn-secondary' }} float-right">Tampilkan Aktif Saja</a>
+        </div>
     </div>
     </div><!-- /.container-fluid -->
 </section>
@@ -98,8 +102,9 @@
                 dom: 'lBfrtip',
                 buttons: [ 'print', 'excel', 'pdf' ],
                 ajax: {
-                    url : '{{ route("getHargaBarang") }}'
+                    url : '{{ route("getHargaBarang") . '?type=' . $type }}'
                 },
+                lengthMenu: [[50 , -1], [50, "Semua"]],
                 createdRow: function( row, data, dataIndex){
                     if (parseInt(data.harga_jual) < parseInt(data.harga_beli) || parseInt(data.harga_jual_offline) < parseInt(data.harga_beli)) {
                         $(row).addClass('table-danger');
