@@ -47,6 +47,7 @@
                                 <tr>
                                     <th>Kode Barang</th>
                                     <th>Nama</th>
+                                    <th>Toko</th>
                                     <th>Harga</th>
                                     <th>Stok</th>
                                     <th>Action</th>
@@ -113,6 +114,7 @@
                 columns: [
                     { data: 'kode_barang'},
                     { data: 'nama'},
+                    { data: 'nama_toko'},
                     { data: 'harga_jual'},
                     { data: 'stok' },
                     { data: 'actions', orderable: false, searchable: false}
@@ -142,6 +144,7 @@
                                 <td>${data.nama}</td>
                                 <input type="hidden" value="${data.nama}" name="nama[${id}]"/>
                                 <input type="hidden" value="${data.kode_barang}" name="kode_barang[${id}]"/>
+                                <input type="hidden" value="${data.warung_id}" name="warung_id[${id}]"/>
                                 <td id="view_qty_${id}" align="center">${qty}</td>
                                 <input type="hidden" value="${qty}" name="qty[${id}]" id="qty_${id}"/>
                                 <td id="view_harga_${id}" align="right">${harga}</td>

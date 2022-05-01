@@ -43,6 +43,18 @@
                 </div>
             @endif
 
+            @if ($errors->any())
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
             <table id="table_barang" class="table table-striped table-bordered">
                 <thead>
                 <tr>
@@ -51,6 +63,8 @@
                     <th>Harga Jual Online</th>
                     <th>Harga Jual Offline</th>
                     <th>Warning Stok</th>
+                    <th>Aktif</th>
+                    <th>Tanggal dibuat</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -80,12 +94,15 @@
                     url : '{{ route("getBarang") }}'
                 },
                 lengthMenu: [[50 , -1], [50, "Semua"]],
+                order: [[5, 'desc'], [6, 'desc']],
                 columns: [
                     { data: 'kode_barang'},
                     { data: 'nama'},
                     { data: 'harga_jual'},
                     { data: 'harga_jual_offline'},
                     { data: 'stok_limit' },
+                    { data : 'active' },
+                    { data : 'created_at' },
                     { data: 'actions', orderable: false, searchable: false}
                 ]
             });

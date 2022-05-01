@@ -10,13 +10,31 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Laporan Penjualan</h1>
+                        <h1>Barang Kolaborasi</h1>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
         </section>
         <!-- Main content -->
         <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <table class="table">
+                                <tr>
+                                    <td>Nama Toko</td>
+                                    <td>{{ $profile->nama }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Alamat</td>
+                                    <td>{{ $profile->alamat }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="container-fluid">
                 <div class="row">
@@ -24,7 +42,7 @@
                         <!-- Default box -->
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">List Penjualan</h3>
+                                <h3 class="card-title">List Barang</h3>
 
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -43,11 +61,9 @@
                                 <table id="table_barang" class="table table-striped table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>Tanggal</th>
-                                        <th>Nomor Transaksi</th>
-                                        <th>Nama Pembeli</th>
-                                        <th>Type Transaksi</th>
-                                        <th>Barang</th>
+                                        <th>Kode Barang</th>
+                                        <th>Nama</th>
+                                        <th>Harga</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -63,6 +79,7 @@
     </div>
     <!-- /.content-wrapper -->
 @endsection
+
 @section('script')
     <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
@@ -73,26 +90,13 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url : '{{ route("getPenjualan") }}'
+                    url : '{{ route("getBarangPartnerConfirmation") . "?id=".$id }}'
                 },
-                order: [[0, 'desc']],
+                lengthMenu: [[50 , -1], [50, "Semua"]],
                 columns: [
-                    { data: 'created_at'},
-                    { data: 'no_transaksi'},
-                    { data: 'nama_pembeli'},
-                    { data: 'type'},
-                    {
-                        data: function ( row ) {
-                            var html = "<ul>";
-
-                            row.detail.forEach(d => {
-                                html += "<li style='display: flex; justify-content: space-between;'><div>" + d.nama + " </div><div>"+ d.harga +"</div><div style='margin-right: 10px;'> x"+ d.qty +"</div></li>"
-                            })
-
-                            html += "</ul>";
-                            return html;
-                        }, orderable: false, searchable: false
-                    },
+                    { data: 'kode_barang'},
+                    { data: 'nama'},
+                    { data: 'harga_jual_offline'},
                     { data: 'actions', orderable: false, searchable: false}
                 ]
             });

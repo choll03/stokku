@@ -10,7 +10,7 @@ class Invoice extends Model
 
     public function detail()
     {
-        return $this->hasMany('App\Model\Invoice_detail');
+        return $this->hasMany(Invoice_detail::class);
     }
 
     public function user()
