@@ -64,5 +64,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/partner/product-colaboration/{id}', 'PartnerController@productColaboration')->name('partner.product-colaboration');
         Route::post('/partner/product-joined/{id}', 'PartnerController@productJoined')->name('partner.product-joined');
         Route::post('/partner/payment', 'PartnerController@payment')->name('partner.payment');
+        Route::get('/produksi/bulat', 'ProduksiController@bulatPress')->name('produksi.bulat');
+        Route::post('/produksi/print', 'ProduksiController@printBulat')->name('produksi.print');
     });
 });
