@@ -115,13 +115,13 @@
                     { data: 'nama'},
                     { data: function (data) {
                             return formatMoney(data.harga_beli, 0, ",", ".");
-                        }, className: "text-right"},
+                        }, className: "text-right", searchable: false},
                     { data: function (data) {
                             return formatMoney(data.harga_jual_offline, 0, ",", ".");
-                        }, className: "text-right"},
+                        }, className: "text-right", searchable: false},
                     { data: function (data) {
                             return formatMoney(data.harga_jual, 0, ",", ".");
-                        }, className: "text-right"}
+                        }, className: "text-right", searchable: false}
                 ]
             });
         })
