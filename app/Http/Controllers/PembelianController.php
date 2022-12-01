@@ -51,7 +51,7 @@ class PembelianController extends Controller
      */
     public function create()
     {
-        $barangs = auth()->user()->barang()->where('active', 1)->get();
+        $barangs = auth()->user()->barang;
 
         $dataBarang = [];
 
@@ -138,7 +138,7 @@ class PembelianController extends Controller
     {
         $user = auth()->user();
 
-        $barangs = $user->barang()->where('active', 1)->get();
+        $barangs = $user->barang;
 
         $dataBarang = [];
 

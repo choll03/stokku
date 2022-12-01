@@ -86,7 +86,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
+            <a href="{{ route('home') }}" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -95,7 +95,7 @@
           </li>
 
             <li class="nav-item">
-                <a href="{{ route('barang.index') }}" class="nav-link {{ Route::is('barang.*') ? 'active' : '' }}">
+                <a href="{{ route('barang.index') }}" class="nav-link">
                     <i class="nav-icon fas fa-archive"></i>
                     <p>
                         Master Barang
@@ -104,7 +104,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('pembelian.index') }}" class="nav-link {{ Route::is('pembelian.*') ? 'active' : '' }}">
+                <a href="{{ route('pembelian.index') }}" class="nav-link">
                     <i class="nav-icon fas fa-shopping-bag"></i>
                     <p>
                         Pembelian Barang
@@ -113,7 +113,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('transaksi', ['type' => 'offline']) }}" class="nav-link {{ request()->routeIs('transaksi') ? 'active' : '' }}">
+                <a href="{{ route('transaksi', ['type' => 'offline']) }}" class="nav-link">
                     <i class="nav-icon fas fa-shopping-cart"></i>
                     <p>
                         Jual Barang
@@ -122,7 +122,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('laporan') }}" class="nav-link {{ request()->routeIs('laporan') ? 'active' : '' }}">
+                <a href="{{ route('laporan') }}" class="nav-link">
                     <i class="nav-icon fas fa-receipt"></i>
                     <p>
                         Laporan Penjualan
@@ -131,7 +131,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('stok') }}" class="nav-link {{ request()->routeIs('stok') ? 'active' : '' }}">
+                <a href="{{ route('barang.stok') }}" class="nav-link">
                     <i class="nav-icon fas fa-chart-line"></i>
                     <p>
                         Stok Barang
@@ -140,7 +140,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('harga_dasar', ['type' => 'active']) }}" class="nav-link {{ request()->routeIs('harga_dasar') ? 'active' : '' }}">
+                <a href="{{ route('barang.harga_dasar') }}" class="nav-link">
                     <i class="nav-icon fas fa-money-bill-alt"></i>
                     <p>
                         Harga Dasar Barang
@@ -148,38 +148,8 @@
                 </a>
             </li>
 
-            <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-boxes"></i>
-                    <p>
-                        Kolaborasi
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Cari Partner</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Permintaan Partner</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Partner Saya</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
             <li class="nav-item">
-              <a  href="{{ route('warung.index') }}" class="nav-link {{ request()->routeIs('warung.edit') ? 'active' : '' }}">
+              <a  href="{{ route('warung.index') }}" class="nav-link">
                 <i class="nav-icon fas fa-home"></i>
                 <p>
                   Warungku

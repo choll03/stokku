@@ -109,7 +109,6 @@
                 ajax: {
                     url : '{{ route("getBarangForTransaksi", ['type' => $type]) }}'
                 },
-                lengthMenu: [[50 , -1], [50, "Semua"]],
                 columns: [
                     { data: 'kode_barang'},
                     { data: 'nama'},

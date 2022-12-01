@@ -75,7 +75,6 @@
                 ajax: {
                     url : '{{ route("getStokBarang") }}'
                 },
-                lengthMenu: [[50 , -1], [50, "Semua"]],
                 createdRow: function( row, data, dataIndex){
                     if (parseInt(data.stok) <= parseInt(data.stok_limit)) {
                         console.log(data);

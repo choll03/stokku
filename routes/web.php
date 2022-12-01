@@ -39,11 +39,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/transaksi/{id}', 'TransaksiController@show')->name('transaksi.show');
         Route::post('/transaksi', 'TransaksiController@store')->name('transaksi.store');
         Route::get('barang/duplicate/{id}', 'BarangController@duplicate')->name('barang.duplicate');
-        Route::post('barang/active/{id}', 'BarangController@activeBarang')->name('barang.active');
         Route::resource('/barang', 'BarangController');
         Route::resource('/pembelian', 'PembelianController');
-        Route::get('/stok', 'BarangController@stok')->name('stok');
-        Route::get('/harga-dasar', 'BarangController@hargaBarang')->name('harga_dasar');
+        Route::get('/stok', 'BarangController@stok')->name('barang.stok');
+        Route::get('/harga-dasar', 'BarangController@hargaBarang')->name('barang.harga_dasar');
         Route::get('/laporan', 'TransaksiController@laporan')->name('laporan');
         Route::get('/laporan/transaksi/{id}', 'TransaksiController@laporanShow')->name('laporan.show');
     });

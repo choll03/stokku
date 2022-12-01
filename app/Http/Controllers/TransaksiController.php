@@ -43,8 +43,7 @@ class TransaksiController extends Controller
                     barangs.nama as nama,".
                     $harga . " as harga_jual,"
                     ."IFNULL((SELECT SUM(jumlah) FROM pembelian_details WHERE barang_id = barangs.id), 0) - IFNULL((SELECT SUM(qty) FROM invoice_details WHERE barangs.id = invoice_details.barang_id ),0) as stok"))
-            ->where('warung_id', $warung->id)
-            ->where('active', 1);
+            ->where('warung_id', $warung->id);
         return Datatables::of($barangs)
         ->addColumn('actions', function ($data) use ($request){
             return '
