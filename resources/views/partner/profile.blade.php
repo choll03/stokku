@@ -95,8 +95,8 @@
                 columns: [
                     { data: 'kode_barang'},
                     { data: 'nama'},
-                    { data: 'harga_jual_offline', searchable: false},
-                    { data: 'stok',searchable: false},
+                    { data: 'harga_jual_offline'},
+                    { data: 'stok'},
                     { data: 'actions', orderable: false, searchable: false}
                 ]
             });
