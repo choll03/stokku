@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Model\Barang;
-use App\PartnerInvitation;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Model\Invoice_detail;
@@ -40,44 +39,12 @@ class TransaksiController extends Controller
 
         $barangs = Barang::select(DB::raw("
                     barangs.id as id,
-                    barangs.warung_id as warung_id,
                     barangs.kode_barang as kode_barang,
-                    barangs.nama as nama,
-                    null as nama_toko,".
+                    barangs.nama as nama,".
                     $harga . " as harga_jual,"
                     ."IFNULL((SELECT SUM(jumlah) FROM pembelian_details WHERE barang_id = barangs.id), 0) - IFNULL((SELECT SUM(qty) FROM invoice_details WHERE barangs.id = invoice_details.barang_id ),0) as stok"))
             ->where('warung_id', $warung->id)
             ->where('active', 1);
-
-        $arr = [];
-        $invitationId = PartnerInvitation::where(function ($q) use ($warung) {
-            $q->where('from', $warung->id);
-            $q->orWhere('to', $warung->id);
-        })->where('success', 1)->get();
-
-        foreach ($invitationId as $data) {
-            if ($data->to == $warung->id) {
-                $arr[] = $data->to;
-            } else {
-                $arr[] = $data->from;
-            }
-        };
-
-        $barangJoined = Barang::select(DB::raw("
-                    barangs.id as id,
-                    barangs.warung_id as warung_id,
-                    barangs.kode_barang as kode_barang,
-                    barangs.nama as nama,
-                    (SELECT nama FROM warungs WHERE warungs.id = barangs.warung_id) as nama_toko,
-                    harga_jual_offline as harga_jual,"
-            ."IFNULL((SELECT SUM(jumlah) FROM pembelian_details WHERE barang_id = barangs.id), 0) - IFNULL((SELECT SUM(qty) FROM invoice_details WHERE barangs.id = invoice_details.barang_id ),0) as stok"))
-            ->join('product_colaborations', 'product_colaborations.barang_id', '=', 'barangs.id')
-            ->where('barangs.active', 1)
-            ->where('product_colaborations.isConfirm', 1)
-            ->whereIn('product_colaborations.warung_id', $arr);
-
-        $barangs->union($barangJoined);
-
         return Datatables::of($barangs)
         ->addColumn('actions', function ($data) use ($request){
             return '
@@ -92,7 +59,7 @@ class TransaksiController extends Controller
     public function getDataPenjualan() {
         $user = auth()->user();
 
-        return Datatables::of($user->invoice()->with('detail'))
+        return Datatables::of($user->invoice()->with('detail')->latest())
             ->addColumn('actions', function ($data) {
                 return '
                 <a href="'. route('laporan.show', $data->id) .'" class="btn btn-primary">Detail</a>
@@ -135,8 +102,7 @@ class TransaksiController extends Controller
                     'barang_id'     => $key,
                     'nama'          => $value,
                     'qty'           => $request->qty[$key],
-                    'harga'         => $request->harga[$key] / $request->qty[$key],
-                    'warung_id'     => $request->warung_id[$key]
+                    'harga'         => $request->harga[$key] / $request->qty[$key]
                 ]);
             }
             DB::commit();

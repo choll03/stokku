@@ -79,7 +79,6 @@
                 ajax: {
                     url : '{{ route("getPembelianBarang") }}'
                 },
-                order: [[0, 'desc']],
                 columns: [
                     { data: 'created_at'},
                     { data: 'no_transaksi'},
@@ -95,7 +94,7 @@
 
                             html += "</ul>";
                             return html;
-                        }, orderable: false, searchable: false
+                        }
                     },
                     { data: 'actions', orderable: false, searchable: false}
                 ]

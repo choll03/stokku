@@ -148,7 +148,7 @@
                 </a>
             </li>
 
-            <li class="nav-item has-treeview {{ Route::is('partner.*') ? 'menu-open' : '' }}">
+            <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-boxes"></i>
                     <p>
@@ -158,19 +158,19 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ route('partner.search') }}" class="nav-link {{ request()->routeIs('partner.search') ? 'active' : '' }}">
+                        <a href="#" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Cari Partner</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('partner.list-confirmation') }}" class="nav-link {{ request()->routeIs('partner.list-confirmation') ? 'active' : '' }}">
+                        <a href="#" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Permintaan Kolaborasi</p>
+                            <p>Permintaan Partner</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('partner.me') }}" class="nav-link {{ request()->routeIs('partner.me') ? 'active' : '' }}">
+                        <a href="#" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Partner Saya</p>
                         </a>

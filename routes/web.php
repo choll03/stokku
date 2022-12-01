@@ -29,12 +29,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/get_penjualan', 'TransaksiController@getDataPenjualan')->name('getPenjualan');
     Route::get('/get_barang_transaksi', 'TransaksiController@getData')->name('getBarangForTransaksi');
     Route::get('/get_barang_harga', 'BarangController@getDataHarga')->name('getHargaBarang');
-    Route::get('/get_search_toko', 'PartnerController@getSearchPartner')->name('getSearchPartner');
-    Route::get('/get_partner_confirmation', 'PartnerController@getPartnerConfirmation')->name('getPartnerConfirmation');
-    Route::get('/get_partner_saya', 'PartnerController@getMyPartner')->name('getMyPartner');
-    Route::get('/get_partner_barang', 'PartnerController@getBarangPartner')->name('getBarangPartner');
-    Route::get('/get_partner_barang_confirmation', 'PartnerController@getBarangPartnerConfirmation')->name('getBarangPartnerConfirmation');
-    Route::post('/print_partner_barang_confirmation/{id}', 'PartnerController@printPartnerTransaction')->name('printPartnerTransaction');
     Route::resource('/warung', 'WarungController');
 
     Route::middleware(['has.warung'])->group(function () {
@@ -52,17 +46,5 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/harga-dasar', 'BarangController@hargaBarang')->name('harga_dasar');
         Route::get('/laporan', 'TransaksiController@laporan')->name('laporan');
         Route::get('/laporan/transaksi/{id}', 'TransaksiController@laporanShow')->name('laporan.show');
-        Route::get('/partner/search', 'PartnerController@search')->name('partner.search');
-        Route::post('/partner/send-invitation', 'PartnerController@sendInvitation')->name('partner.send-invitation');
-        Route::post('/partner/remove-invitation', 'PartnerController@removeInvitation')->name('partner.remove-invitation');
-        Route::post('/partner/confirm-invitation', 'PartnerController@confirmInvitation')->name('partner.confirm-invitation');
-        Route::get('/partner/list-confirmation', 'PartnerController@listConfirmation')->name('partner.list-confirmation');
-        Route::get('/partner/me', 'PartnerController@myPartner')->name('partner.me');
-        Route::get('/partner/profile/{id}', 'PartnerController@profile')->name('partner.profile');
-        Route::get('/partner/product-colaboration/{id}', 'PartnerController@getProductColaboration')->name('partner.get-product-colaboration');
-        Route::get('/partner/transaction/{id}', 'PartnerController@getTransaction')->name('partner.transaction');
-        Route::post('/partner/product-colaboration/{id}', 'PartnerController@productColaboration')->name('partner.product-colaboration');
-        Route::post('/partner/product-joined/{id}', 'PartnerController@productJoined')->name('partner.product-joined');
-        Route::post('/partner/payment', 'PartnerController@payment')->name('partner.payment');
     });
 });

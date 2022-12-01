@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BarangFormRequest;
 use App\Model\Barang;
 
-use App\Model\Invoice_detail;
-use App\PembelianDetail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
@@ -27,7 +25,7 @@ class BarangController extends Controller
     public function getData()
     {
         $user = auth()->user();
-        return Datatables::of($user->barang()->selectRaw('barangs.*'))
+        return Datatables::of($user->barang()->selectRaw('barangs.*')->orderByDesc('barangs.active')->latest())
         ->addColumn('actions', function ($data) {
             $buttons = '
                 <div style="display:flex;justify-content: center;">
@@ -218,15 +216,7 @@ class BarangController extends Controller
     {
         $user = auth()->user();
 
-        $barang = $user->barang()->find($id);
-
-        if (PembelianDetail::where('barang_id', $barang->id)->exists()) {
-            return redirect()->back()->withErrors(['errors' => 'Barang sudah memiliki pembelian']);
-        }
-
-        if (Invoice_detail::where('barang_id', $barang->id)->exists()) {
-            return redirect()->back()->withErrors(['errors' => 'Barang sudah memiliki penjualan']);
-        }
+        $user->barang()->find($id)->delete();
 
         session()->flash('status', 'Barang berhasil di hapus');
         return redirect(route('barang.index'));

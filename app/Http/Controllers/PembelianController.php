@@ -27,7 +27,7 @@ class PembelianController extends Controller
 
         return Datatables::of($user->pembelian()->with(['detail' => function($q) {
             $q->leftJoin('barangs', 'barangs.id', '=', 'pembelian_details.barang_id');
-        }]))
+        }])->latest())
             ->addColumn('actions', function ($data) {
                 return '
                 <div style="display:flex;justify-content: center;">
