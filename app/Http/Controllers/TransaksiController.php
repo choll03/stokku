@@ -49,35 +49,6 @@ class TransaksiController extends Controller
             ->where('warung_id', $warung->id)
             ->where('active', 1);
 
-        $arr = [];
-        $invitationId = PartnerInvitation::where(function ($q) use ($warung) {
-            $q->where('from', $warung->id);
-            $q->orWhere('to', $warung->id);
-        })->where('success', 1)->get();
-
-        foreach ($invitationId as $data) {
-            if ($data->to == $warung->id) {
-                $arr[] = $data->to;
-            } else {
-                $arr[] = $data->from;
-            }
-        };
-
-        $barangJoined = Barang::select(DB::raw("
-                    barangs.id as id,
-                    barangs.warung_id as warung_id,
-                    barangs.kode_barang as kode_barang,
-                    barangs.nama as nama,
-                    (SELECT nama FROM warungs WHERE warungs.id = barangs.warung_id) as nama_toko,
-                    harga_jual_offline as harga_jual,"
-            ."IFNULL((SELECT SUM(jumlah) FROM pembelian_details WHERE barang_id = barangs.id), 0) - IFNULL((SELECT SUM(qty) FROM invoice_details WHERE barangs.id = invoice_details.barang_id ),0) as stok"))
-            ->join('product_colaborations', 'product_colaborations.barang_id', '=', 'barangs.id')
-            ->where('barangs.active', 1)
-            ->where('product_colaborations.isConfirm', 1)
-            ->whereIn('product_colaborations.warung_id', $arr);
-
-        $barangs->union($barangJoined);
-
         return Datatables::of($barangs)
         ->addColumn('actions', function ($data) use ($request){
             return '

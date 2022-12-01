@@ -151,54 +151,6 @@
                 </a>
             </li>
 
-            <li class="nav-item has-treeview {{ Route::is('partner.*') ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-boxes"></i>
-                    <p>
-                        Kolaborasi
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ route('partner.search') }}" class="nav-link {{ request()->routeIs('partner.search') ? 'active' : '' }}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Cari Partner</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('partner.list-confirmation') }}" class="nav-link {{ request()->routeIs('partner.list-confirmation') ? 'active' : '' }}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Permintaan Kolaborasi</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('partner.me') }}" class="nav-link {{ request()->routeIs('partner.me') ? 'active' : '' }}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Partner Saya</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="nav-item has-treeview {{ Route::is('produksi.*') ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-boxes"></i>
-                    <p>
-                        Produksi
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ route('produksi.bulat') }}" class="nav-link {{ request()->routeIs('produksi.bulat') ? 'active' : '' }}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Bulat Press</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-
             <li class="nav-item">
               <a  href="{{ route('warung.index') }}" class="nav-link {{ request()->routeIs('warung.edit') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-home"></i>

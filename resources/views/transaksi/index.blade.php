@@ -47,7 +47,6 @@
                                 <tr>
                                     <th>Kode Barang</th>
                                     <th>Nama</th>
-                                    <th>Toko</th>
                                     <th>Harga</th>
                                     <th>Stok</th>
                                     <th>Action</th>
@@ -114,7 +113,6 @@
                 columns: [
                     { data: 'kode_barang'},
                     { data: 'nama'},
-                    { data: 'nama_toko'},
                     { data: 'harga_jual'},
                     { data: 'stok' },
                     { data: 'actions', orderable: false, searchable: false}
