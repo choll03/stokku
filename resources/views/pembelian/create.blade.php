@@ -1,10 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@section('style')
-    <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
-@endsection
 <div class="content-wrapper">
 <section class="content-header">
     <div class="container-fluid">
@@ -64,7 +60,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             {!! Form::label('barang_id', 'Barang') !!}
-                            {!! Form::select('barang_id', $data, null, ['class' => 'form-control select2', 'id' => 'barang']); !!}
+                            {!! Form::select('barang_id', $data, null, ['class' => 'form-control', 'id' => 'barang']); !!}
                             <input type="hidden" value='<?php echo json_encode($data) ?>' id="baseData">
                             <input type="hidden" value='<?php echo json_encode($data) ?>' id="source">
                         </div>
@@ -129,11 +125,7 @@
 <!-- /.content-wrapper -->
 @endsection
 @section('script')
-    <script src="{{ asset('plugins/select2/js/select2.full.js') }}"></script>
     <script>
-        $('.select2').select2({
-            theme: 'bootstrap4'
-        });
         $('#btnTambah').on('click', function (){
             var idBarang = $('#barang').val();
             var namaBarang = $('#barang option:selected').text();
