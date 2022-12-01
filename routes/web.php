@@ -66,7 +66,5 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/partner/payment', 'PartnerController@payment')->name('partner.payment');
         Route::get('/produksi/bulat', 'ProduksiController@bulatPress')->name('produksi.bulat');
         Route::post('/produksi/print', 'ProduksiController@printBulat')->name('produksi.print');
-        Route::get('/auth/change-password', 'AuthController@changePasswordView')->name('auth.change-password-view');
-        Route::post('/auth/change-password', 'AuthController@changePassword')->name('auth.change-password');
     });
 });
