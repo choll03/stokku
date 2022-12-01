@@ -85,8 +85,8 @@
                 columns: [
                     { data: 'kode_barang'},
                     { data: 'nama'},
-                    { data: 'stok_limit', searchable: false },
-                    { data: 'stok', searchable: false}
+                    { data: 'stok_limit' },
+                    { data: 'stok'}
                 ]
             });
         })
