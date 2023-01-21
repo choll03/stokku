@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Barang;
 use App\PartnerInvitation;
+use App\User;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Model\Invoice_detail;
@@ -23,7 +24,7 @@ class TransaksiController extends Controller
 {
     public function index(Request $request)
     {
-        return view('transaksi.index', ['type' => $request->type]);
+        return view('transaksi.new_index', ['type' => $request->type]);
     }
 
 
@@ -51,10 +52,13 @@ class TransaksiController extends Controller
 
         return Datatables::of($barangs)
         ->addColumn('actions', function ($data) use ($request){
-            return '
-                <button type="button" class="increment btn btn-sm btn-success" data-barang='. var_export(json_encode($data), true) .' >+</button>
-                <button type="button" class="decrement btn btn-sm btn-danger" data-barang='. var_export(json_encode($data), true) .'>-</button>
-            ';
+//             return '
+//                 <button type="button" class="increment btn btn-sm btn-success" data-barang='. var_export(json_encode($data), true) .' >+</button>
+//                 <button type="button" class="decrement btn btn-sm btn-danger" data-barang='. var_export(json_encode($data), true) .'>-</button>
+//             ';
+                return '
+                    <button type="button" id="pre-cart_'. $data->id .'" class="pre-cart btn btn-sm btn-primary" data-barang='. var_export(json_encode($data), true) .' >Order</button>
+                ';
         })
         ->rawColumns(['actions'])
         ->make(true);
@@ -244,5 +248,79 @@ class TransaksiController extends Controller
             'invoice'   => $invoice,
             'date'      => Carbon::now()->format("d M Y H:i:s")
         ]);
+    }
+
+
+    public function getDataBarang($type, Request $request) {
+
+        $user = User::find($request->id);
+        $warung = $user->warung;
+
+        $harga = 'barangs.harga_jual';
+
+        if ($type == 'offline') {
+            $harga = 'barangs.harga_jual_offline';
+        }
+
+        $barangs = Barang::select(DB::raw("
+                    barangs.id as id,
+                    barangs.warung_id as warung_id,
+                    barangs.kode_barang as kode_barang,
+                    barangs.nama as nama,
+                    null as nama_toko,".
+            $harga . " as harga_jual,"
+            ."IFNULL((SELECT SUM(jumlah) FROM pembelian_details WHERE barang_id = barangs.id), 0) - IFNULL((SELECT SUM(qty) FROM invoice_details WHERE barangs.id = invoice_details.barang_id ),0) as stok"))
+            ->where('warung_id', $warung->id)
+            ->where('active', 1)
+            ->get();
+
+        return response()->json($barangs);
+    }
+
+    public function transactionExecution(Request $request) {
+
+        $user = User::find($request->user_id);
+
+        $warung = $user->warung;
+
+        $no_transaksi = date('Ymd') . str_pad($warung->id, 4, '0', STR_PAD_LEFT) . '001';
+
+        $last_invoice = $user->invoice()->orderByDesc('id')->first();
+
+        if($last_invoice){
+            $last_nomor = $last_invoice->no_transaksi;
+            if(substr($last_nomor, 0, 6) == date("Ym")){
+                $no_transaksi = $last_nomor + 1;
+            }
+        }
+
+        DB::beginTransaction();
+        try {
+
+            $invoice = $user->invoice()->create([
+                'no_transaksi'  => $no_transaksi,
+                'nama_pembeli' => $request->nama_pembeli,
+                'type' => $request->type_trx
+            ]);
+
+            foreach($request->data as $value)
+            {
+                $invoice->detail()->create([
+                    'barang_id'     => $value['id'],
+                    'nama'          => $value['nama'],
+                    'qty'           => $value['qty'],
+                    'harga'         => $value['harga_jual'],
+                    'warung_id'     => $warung->id
+                ]);
+            }
+            DB::commit();
+            return response()->json([
+                'message'   => 'Transaksi berhasil dibuat',
+                'data'      => $invoice
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json($th->getMessage(), 403);
+        }
     }
 }

@@ -7,6 +7,12 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import VueSweetalert2 from 'vue-sweetalert2';
+
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 /**
  * The following block of code may be used to automatically register your
@@ -20,7 +26,8 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
+Vue.use(VueAxios, axios)
+Vue.use(VueSweetalert2);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
